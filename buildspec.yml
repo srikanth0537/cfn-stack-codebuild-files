@@ -1,0 +1,46 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  #install:
+    #commands:
+      #- pip install boto3
+
+
+  pre_build:
+    commands:
+      # Download the CloudFormation template file from S3
+      - aws s3 cp s3://bucket-for-cd/sec1.yml .
+      #- aws s3 cp s3://sg-code369/sec2.yml .
+      #- aws s3 cp s3://sg-code369/sec3.yml .
+
+  build:
+    commands:
+      # Validate the CloudFormation template
+      - aws cloudformation validate-template --template-body file://sec1.yml
+      #- aws cloudformation validate-template --template-body file://sec2.yml
+      #- aws cloudformation validate-template --template-body file://sec3.yml
+
+
+      # Create the CloudFormation stack
+      # - aws cloudformation create-stack --stack-name sg-codebuild1 --template-body file://sec1.yml  --region ap-south-1
+      #- aws cloudformation create-stack --stack-name sg-codebuild2 --template-body file://sec2.yml  --region us-east-1
+      #- aws cloudformation create-stack --stack-name sg-codebuild3 --template-body file://sec3.yml  --region us-east-1
+      #- aws cloudformation update-stack --stack-name sg-codebuild1 --template-body file://sec1.yml --region ap-south-1 || true
+      # - aws cloudformation update-stack --stack-name sg-codebuild1 --template-body file://sec1.yml --region ap-south-1
+      #- aws cloudformation update-stack --stack-name sg-codebuild --template-body file://sec.yml --no-fail-on-empty-changeset
+
+      # Update the CloudFormation stack with Python script
+      - python cfn.py sg-codebuild1
+    
+
+  post_build:
+    commands:
+      - echo "CloudFormation stack updated successfully!"
+
+
+
+#--parameters ParameterKey=Key,ParameterValue=Value
+#--parameters ParameterKey=Key,ParameterValue=Value

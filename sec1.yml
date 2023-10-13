@@ -1,0 +1,15 @@
+Resources:
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "My Security Group-1"
+      SecurityGroupIngress:
+        - CidrIp: "0.0.0.0/0"
+          IpProtocol: "-1"
+      Tags:
+        - Key: Name
+          Value: MySecurityGroup-1
+        - Key: Place
+          Value: Nizamabad
+        - Key: Place
+          Value: dubai
